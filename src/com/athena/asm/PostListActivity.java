@@ -29,6 +29,7 @@ public class PostListActivity extends SherlockFragmentActivity
 		setContentView(R.layout.post_list_activity);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setRequestedOrientation(aSMApplication.ORIENTATION);
 		
 		aSMApplication application = (aSMApplication) getApplication();
 		m_viewModel = application.getPostListViewModel();
