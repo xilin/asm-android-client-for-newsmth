@@ -9,6 +9,8 @@
 		android:id="@+id/subject_list" />
 
 	<!-- footer -->
-	<include layout="@layout/post_list_footer" />
+ 	<com.athena.asm.view.PaginationNavigationView android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/pagination_nav"/>
 
 </LinearLayout>

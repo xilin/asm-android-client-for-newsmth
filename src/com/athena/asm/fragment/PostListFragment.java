@@ -49,25 +49,21 @@ import com.athena.asm.data.Subject;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.ForwardPostToMailTask;
 import com.athena.asm.util.task.LoadPostTask;
+import com.athena.asm.view.PaginationNavigationView;
+import com.athena.asm.view.PaginationNavigationView.NavigationAction;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.PostListViewModel;
 
 public class PostListFragment extends SherlockFragment implements
-		OnClickListener, OnTouchListener, OnLongClickListener,
-		OnGestureListener, BaseViewModel.OnViewModelChangObserver {
+		OnTouchListener, OnLongClickListener,
+		OnGestureListener, BaseViewModel.OnViewModelChangObserver,
+		PaginationNavigationView.OnPaginationNavigationActionListener {
 
 	private LayoutInflater m_inflater;
 
 	private PostListViewModel m_viewModel;
 
-	EditText m_pageNoEditText;
-	Button m_firstButton;
-	Button m_lastButton;
-	Button m_preButton;
-	Button m_goButton;
-	Button m_nextButton;
-	
-	private boolean m_isPageNoEditTextTouched = false;
+	private PaginationNavigationView m_pageNavigationView;
 
 	private int m_screenHeight;
 	private ListView m_listView;
@@ -115,25 +111,10 @@ public class PostListFragment extends SherlockFragment implements
 
 		this.m_screenHeight = getActivity().getWindowManager()
 				.getDefaultDisplay().getHeight();
-
-		m_pageNoEditText = (EditText) postListView
-				.findViewById(R.id.edittext_page_no);
-		m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
-		m_pageNoEditText.setOnClickListener(this);
-		m_pageNoEditText.setOnTouchListener(this);
-		m_pageNoEditText.setTextColor(Color.GRAY);
-
-		m_firstButton = (Button) postListView.findViewById(R.id.btn_first_page);
-		m_firstButton.setOnClickListener(this);
-		m_lastButton = (Button) postListView.findViewById(R.id.btn_last_page);
-		m_lastButton.setOnClickListener(this);
-		m_preButton = (Button) postListView.findViewById(R.id.btn_pre_page);
-		m_preButton.setOnClickListener(this);
-		m_goButton = (Button) postListView.findViewById(R.id.btn_go_page);
-		m_goButton.setOnClickListener(this);
-		m_goButton.setText(R.string.go_and_last_page);
-		m_nextButton = (Button) postListView.findViewById(R.id.btn_next_page);
-		m_nextButton.setOnClickListener(this);
+		
+		m_pageNavigationView = (PaginationNavigationView)postListView.findViewById(R.id.pagination_nav);
+		m_pageNavigationView.setNavigationActionListener(this);
+		m_pageNavigationView.setGoCanBeUsedAsLast();
 
 		m_listView = (ListView) postListView.findViewById(R.id.post_list);
 
@@ -213,11 +194,8 @@ public class PostListFragment extends SherlockFragment implements
 		if (m_viewModel.getPostList() == null) {
 
 			m_viewModel.ensurePostExists();
-
-			m_firstButton.setEnabled(false);
-			m_preButton.setEnabled(false);
-			m_nextButton.setEnabled(false);
-			m_lastButton.setEnabled(false);
+			
+			m_pageNavigationView.disableActions();
 		}
 
 		actionProvider.setShareIntent(createShareIntent());
@@ -226,36 +204,19 @@ public class PostListFragment extends SherlockFragment implements
 				.getPostList()));
 
 		m_viewModel.updateCurrentPageNumberFromSubject();
-		m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
+		m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
 		m_listView.requestFocus();
 
 		m_viewModel.setIsPreloadFinished(false);
 		m_viewModel.updatePreloadSubjectFromCurrentSubject();
 
 		if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_SUBJECT) {
-			m_goButton.setVisibility(View.VISIBLE);
-			m_pageNoEditText.setVisibility(View.VISIBLE);
-			m_lastButton.setVisibility(View.GONE);
-			m_firstButton.setText(R.string.first_page);
-			m_lastButton.setText(R.string.last_page);
-			m_preButton.setText(R.string.pre_page);
-			m_nextButton.setText(R.string.next_page);
+			m_pageNavigationView.setSubjectPostMode();
 		} else if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_NORMAL
 				&& !m_isFromReplyOrAt) {
-			m_goButton.setVisibility(View.GONE);
-			m_pageNoEditText.setVisibility(View.GONE);
-			m_lastButton.setVisibility(View.VISIBLE);
-			m_firstButton.setText(R.string.topic_first_page);
-			m_lastButton.setText(R.string.topic_all_page);
-			m_preButton.setText(R.string.topic_pre_page);
-			m_nextButton.setText(R.string.topic_next_page);
+			m_pageNavigationView.setNormalPostMode();
 		} else {
-			m_goButton.setVisibility(View.GONE);
-			m_pageNoEditText.setVisibility(View.GONE);
-			m_firstButton.setVisibility(View.GONE);
-			m_lastButton.setVisibility(View.GONE);
-			m_preButton.setVisibility(View.GONE);
-			m_nextButton.setVisibility(View.GONE);
+			m_pageNavigationView.setInvisibleMode();
 		}
 		getActivity().setTitle(m_viewModel.getSubjectTitle());
 
@@ -273,77 +234,6 @@ public class PostListFragment extends SherlockFragment implements
 					m_viewModel.getPreloadSubject(), 3, true, false,
 					m_startNumber, null);
 			loadPostTask.execute();
-		}
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (view.getId() == R.id.edittext_page_no) {
-			changePageNoEditStatus();
-			return;
-		}
-		
-		boolean isNext = false;
-		if (m_viewModel.getBoardType() == 0) { // 同主题导航
-
-			if (view.getId() == R.id.btn_first_page) {
-				m_viewModel.gotoFirstPage();
-			} else if (view.getId() == R.id.btn_last_page) {
-				m_viewModel.gotoLastPage();
-			} else if (view.getId() == R.id.btn_pre_page) {
-				m_viewModel.gotoPrevPage();
-			} else if (view.getId() == R.id.btn_go_page) {
-				// 如果未按过编辑框，GO的功能为末页。否则为GO
-				if (m_isPageNoEditTextTouched) {
-					int pageSet = Integer.parseInt(m_pageNoEditText.getText()
-							.toString());
-					m_viewModel.setCurrentPageNumber(pageSet);
-				} else {
-					m_viewModel.gotoLastPage();
-				}
-				
-			} else if (view.getId() == R.id.btn_next_page) {
-				m_viewModel.gotoNextPage();
-				isNext = true;
-			}
-
-			m_viewModel.updateSubjectCurrentPageNumberFromCurrentPageNumber();
-			m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
-			if (view.getParent() != null) {
-				((View) view.getParent()).requestFocus();
-			}
-
-			LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
-					m_viewModel.getCurrentSubject(), 0, false, isNext,
-					m_startNumber, null);
-			loadPostTask.execute();
-			if (m_progressDialogProvider != null) {
-				m_progressDialogProvider.showProgressDialog();
-			}
-		} else {
-			int action = 0;
-			if (view.getId() == R.id.btn_first_page) {
-				action = 1;
-			} else if (view.getId() == R.id.btn_pre_page) {
-				action = 2;
-			} else if (view.getId() == R.id.btn_next_page) {
-				action = 3;
-				isNext = true;
-			} else if (view.getId() == R.id.btn_last_page) {
-				m_viewModel.setSubjectExpand(true);
-				m_viewModel.setBoardType(0);
-				m_startNumber = Integer.parseInt(m_viewModel
-						.getCurrentSubject().getSubjectID());
-				m_viewModel.updateSubjectIDFromTopicSubjectID();
-				m_viewModel.setSubjectCurrentPageNumber(1);
-			}
-			LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
-					m_viewModel.getCurrentSubject(), action, false, isNext,
-					m_startNumber, null);
-			loadPostTask.execute();
-			if (m_progressDialogProvider != null) {
-				m_progressDialogProvider.showProgressDialog();
-			}
 		}
 	}
 
@@ -542,11 +432,6 @@ public class PostListFragment extends SherlockFragment implements
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		if (v.getId() == R.id.edittext_page_no) {
-			changePageNoEditStatus();
-			return false;
-		}
-		
 		boolean isConsumed = m_GestureDetector.onTouchEvent(event);
 		if (event.getAction() == MotionEvent.ACTION_CANCEL
 				|| event.getAction() == MotionEvent.ACTION_UP) {
@@ -558,13 +443,13 @@ public class PostListFragment extends SherlockFragment implements
 					// Fling left
 					Toast.makeText(getActivity(), "下一页", Toast.LENGTH_SHORT)
 							.show();
-					m_nextButton.performClick();
+					onNavigationAction(NavigationAction.GoNext);
 				} else if (m_touchStartX - m_touchCurrentX > flingMinXDistance
 						&& Math.abs(m_touchStartY - m_touchCurrentY) < flingMaxYDistance) {
 					// Fling right
 					Toast.makeText(getActivity(), "上一页", Toast.LENGTH_SHORT)
 							.show();
-					m_preButton.performClick();
+					onNavigationAction(NavigationAction.GoPrev);
 				}
 			}
 
@@ -658,16 +543,6 @@ public class PostListFragment extends SherlockFragment implements
 		}
 		return shareIntent;
 	}
-	
-	private void changePageNoEditStatus() {
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			m_pageNoEditText.setTextColor(Color.WHITE);
-		} else {
-			m_pageNoEditText.setTextColor(Color.BLACK);
-		}
-		
-		m_isPageNoEditTextTouched = true;
-	}
 
 	private void forwardToEmail(final Post post, final boolean group) {
 		String email = aSMApplication.getCurrentApplication()
@@ -726,6 +601,65 @@ public class PostListFragment extends SherlockFragment implements
 		}
 
 		return;
+	}
+
+	@Override
+	public void onNavigationAction(NavigationAction navAction) {
+		
+		boolean isNext = false;
+		if (m_viewModel.getBoardType() == 0) { // 同主题导航
+
+			if (navAction == NavigationAction.GoFirst) {
+				m_viewModel.gotoFirstPage();
+			} else if (navAction == NavigationAction.GoLast) {
+				m_viewModel.gotoLastPage();
+			} else if (navAction == NavigationAction.GoPrev) {
+				m_viewModel.gotoPrevPage();
+			} else if (navAction == NavigationAction.GoPageNumber) {
+				int pageSet = m_pageNavigationView.getCurrentPageNumber();
+				m_viewModel.setCurrentPageNumber(pageSet);
+			} else if (navAction == NavigationAction.GoNext) {
+				m_viewModel.gotoNextPage();
+				isNext = true;
+			}
+
+			m_viewModel.updateSubjectCurrentPageNumberFromCurrentPageNumber();
+			m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
+//			if (view.getParent() != null) {
+//				((View) view.getParent()).requestFocus();
+//			}
+
+			LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
+					m_viewModel.getCurrentSubject(), 0, false, isNext,
+					m_startNumber, null);
+			loadPostTask.execute();
+		} else {
+			int action = 0;
+			if (navAction == NavigationAction.GoFirst) {
+				action = 1;
+			} else if (navAction == NavigationAction.GoPrev) {
+				action = 2;
+			} else if (navAction == NavigationAction.GoNext) {
+				action = 3;
+				isNext = true;
+			} else if (navAction == NavigationAction.GoLast) {
+				m_viewModel.setSubjectExpand(true);
+				m_viewModel.setBoardType(0);
+				m_startNumber = Integer.parseInt(m_viewModel
+						.getCurrentSubject().getSubjectID());
+				m_viewModel.updateSubjectIDFromTopicSubjectID();
+				m_viewModel.setSubjectCurrentPageNumber(1);
+			}
+			LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
+					m_viewModel.getCurrentSubject(), action, false, isNext,
+					m_startNumber, null);
+			loadPostTask.execute();
+		}
+		
+		if (m_progressDialogProvider != null) {
+			m_progressDialogProvider.showProgressDialog();
+		}
+		
 	}
 
 }

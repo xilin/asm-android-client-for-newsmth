@@ -32,20 +32,23 @@ import com.athena.asm.data.Subject;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadSubjectTask;
+import com.athena.asm.view.PaginationNavigationView;
+import com.athena.asm.view.PaginationNavigationView.NavigationAction;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.SubjectListViewModel;
 import com.markupartist.android.widget.PullToRefreshListView;
 import com.markupartist.android.widget.PullToRefreshListView.OnRefreshListener;
 
 public class SubjectListFragment extends SherlockFragment implements
-		OnClickListener, android.content.DialogInterface.OnClickListener,
-		BaseViewModel.OnViewModelChangObserver {
+		android.content.DialogInterface.OnClickListener,
+		BaseViewModel.OnViewModelChangObserver, 
+		PaginationNavigationView.OnPaginationNavigationActionListener {
 
 	private LayoutInflater m_inflater;
 
 	private SubjectListViewModel m_viewModel;
 
-	private EditText m_pageNoEditText;
+	private PaginationNavigationView m_pageNavigationView;
 
 	private boolean m_isNewInstance = false;
 	
@@ -76,35 +79,10 @@ public class SubjectListFragment extends SherlockFragment implements
 		m_viewModel = application.getSubjectListViewModel();
 		m_viewModel.registerViewModelChangeObserver(this);
 
-		m_pageNoEditText = (EditText) subjectListView
-				.findViewById(R.id.edittext_page_no);
-		m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
-
-		Button firstButton = (Button) subjectListView
-				.findViewById(R.id.btn_first_page);
-		firstButton.setOnClickListener(this);
-		Button lastButton = (Button) subjectListView
-				.findViewById(R.id.btn_last_page);
-		lastButton.setVisibility(View.GONE);
-		//lastButton.setOnClickListener(this);
-		Button preButton = (Button) subjectListView
-				.findViewById(R.id.btn_pre_page);
-		preButton.setOnClickListener(this);
-		Button goButton = (Button) subjectListView
-				.findViewById(R.id.btn_go_page);
-		goButton.setOnClickListener(this);
-		goButton.setText(R.string.go_page);
-		Button nextButton = (Button) subjectListView
-				.findViewById(R.id.btn_next_page);
-		nextButton.setOnClickListener(this);
-
-		// ImageButton writeImageButton = (ImageButton)
-		// subjectListView.findViewById(R.id.writePost);
-		// writeImageButton.setOnClickListener(this);
-		// ImageButton switchModeImageButton = (ImageButton)
-		// subjectListView.findViewById(R.id.switchBoardMode);
-		// switchModeImageButton.setOnClickListener(this);
-
+		m_pageNavigationView = (PaginationNavigationView)subjectListView.findViewById(R.id.pagination_nav);
+		m_pageNavigationView.setNavigationActionListener(this);
+		m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
+		
 		return subjectListView;
 	}
 
@@ -146,28 +124,6 @@ public class SubjectListFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (view.getId() == R.id.btn_first_page) {
-			m_viewModel.gotoFirstPage();
-		} else if (view.getId() == R.id.btn_last_page) {
-			m_viewModel.gotoLastPage();
-		} else if (view.getId() == R.id.btn_pre_page) {
-			m_viewModel.gotoPrevPage();
-		} else if (view.getId() == R.id.btn_go_page) {
-			int pageSet = Integer.parseInt(m_pageNoEditText.getText()
-					.toString());
-			m_viewModel.setCurrentPageNumber(pageSet);
-		} else if (view.getId() == R.id.btn_next_page) {
-			m_viewModel.gotoNextPage();
-		}
-
-		m_viewModel.updateBoardCurrentPage();
-		m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
-		refreshSubjectList();
-
-	}
-
-	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (resultCode) {
 		case Activity.RESULT_OK:
@@ -188,7 +144,7 @@ public class SubjectListFragment extends SherlockFragment implements
 		if (m_viewModel.getSubjectList() != null) {
 			if (m_viewModel.isFirstIn()) {
 				m_viewModel.gotoFirstPage();
-				m_pageNoEditText.setText(m_viewModel.getCurrentPageNumber() + "");
+				m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
 				m_viewModel.setIsFirstIn(false);
 			}
 
@@ -348,6 +304,27 @@ public class SubjectListFragment extends SherlockFragment implements
 				m_progressDialogProvider.dismissProgressDialog();
 			}
 		}
+	}
+
+	@Override
+	public void onNavigationAction(NavigationAction navAction) {
+		if (navAction == NavigationAction.GoFirst) {
+			m_viewModel.gotoFirstPage();
+		} else if (navAction == NavigationAction.GoLast) {
+			m_viewModel.gotoLastPage();
+		} else if (navAction == NavigationAction.GoPrev) {
+			m_viewModel.gotoPrevPage();
+		} else if (navAction == NavigationAction.GoPageNumber) {
+			int pageSet = m_pageNavigationView.getCurrentPageNumber();
+			m_viewModel.setCurrentPageNumber(pageSet);
+			
+		} else if (navAction == NavigationAction.GoNext) {
+			m_viewModel.gotoNextPage();
+		}
+
+		m_viewModel.updateBoardCurrentPage();
+		m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
+		refreshSubjectList();		
 	}
 
 }
