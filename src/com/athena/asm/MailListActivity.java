@@ -153,7 +153,7 @@ public class MailListActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 
 		menu.add(0, REFRESH_MAILLIST, Menu.NONE, "刷新")
 				.setIcon(

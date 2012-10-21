@@ -198,7 +198,7 @@ public class SubjectListFragment extends SherlockFragment implements
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// super.onCreateOptionsMenu(menu, inflater);
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 
 		if (SmthSupport.getInstance().getLoginStatus()) {
 			menu.add(0, CREATE_ID, Menu.NONE, "发新贴")

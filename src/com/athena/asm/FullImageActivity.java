@@ -51,7 +51,7 @@ public class FullImageActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// super.onCreateOptionsMenu(menu);
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 
 		menu.add(0, Menu.FIRST, Menu.NONE, "保存")
 				.setIcon(isLight ? R.drawable.save_inverse : R.drawable.save)

@@ -35,7 +35,7 @@ import com.athena.asm.viewmodel.SubjectListViewModel;
 public class aSMApplication extends Application {
 
 	private static aSMApplication m_application;
-	public static int THEME = R.style.Theme_Sherlock;
+	public static int THEME = R.style.Theme_Asm;
 	public static int ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
 
 	private boolean m_isFirstLaunch = false;
@@ -391,9 +391,9 @@ public class aSMApplication extends Application {
 		}
 
 		if (isNightTheme()) {
-			THEME = R.style.Theme_Sherlock;
+			THEME = R.style.Theme_Asm;
 		} else {
-			THEME = R.style.Theme_Sherlock_Light;
+			THEME = R.style.Theme_Asm_Light;
 		}
 
 		switch (defaultOrientation) {

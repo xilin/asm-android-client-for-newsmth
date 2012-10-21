@@ -36,7 +36,7 @@ public class BoardTypeListAdapter extends BaseAdapter {
 			textView.setTextColor(Color.GRAY);
 		}
 		else {
-			boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+			boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 			if (isLight) {
 				textView.setTextColor(Color.BLACK);
 			} else {

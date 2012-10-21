@@ -68,7 +68,7 @@ public class HomeActivity extends SherlockFragmentActivity
 		actionBar.setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 
 		m_tabsAdapter = new TabsAdapter(this, m_viewPager);
 		m_tabsAdapter.addTab(
@@ -323,7 +323,7 @@ public class HomeActivity extends SherlockFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// super.onCreateOptionsMenu(menu);
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 
 		menu.add(0, CLEAN, Menu.NONE, "清除缓存")
 				.setIcon(isLight ? R.drawable.clean_inverse : R.drawable.clean)

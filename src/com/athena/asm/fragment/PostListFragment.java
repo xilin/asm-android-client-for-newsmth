@@ -471,7 +471,7 @@ public class PostListFragment extends SherlockFragment implements
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 		((SherlockFragmentActivity) getActivity()).getSupportMenuInflater()
 				.inflate(R.menu.share_action_provider, menu);
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Theme.Asm" parent="Theme.Sherlock">
+       <item name="navNextDrawable">@drawable/nav_next_item</item>
+       <item name="navPrevDrawable">@drawable/nav_prev_item</item>
+    </style>
+    
+    <style name="Theme.Asm.Light" parent="Theme.Sherlock.Light">
+       <item name="navNextDrawable">@drawable/nav_next_item_inverse</item>
+       <item name="navPrevDrawable">@drawable/nav_prev_item_inverse</item>
+    </style>
+</resources>

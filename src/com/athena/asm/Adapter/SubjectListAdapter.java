@@ -40,7 +40,7 @@ public class SubjectListAdapter extends BaseAdapter {
 		TextView titleTextView = (TextView) layout.findViewById(R.id.SubjectTitle);
 		String titleString = subject.getTitle();
 		if (subject.getType().toLowerCase().contains(Subject.TYPE_BOTTOM)) {
-			boolean isLight = aSMApplication.THEME == R.style.Theme_Sherlock_Light;
+			boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 			if (isLight) {
 				titleString = "<font color='#f00000'>" + titleString + "</font>";
 			} else {

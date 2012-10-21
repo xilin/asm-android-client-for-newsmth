@@ -11,14 +11,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.view.KeyEvent;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 
 
 public class PaginationNavigationView extends LinearLayout 
-									  implements OnClickListener,
-									  OnTouchListener {
+									  implements OnClickListener, OnLongClickListener,
+									  OnTouchListener, OnKeyListener {
 	
 	public enum NavigationAction {
 		GoFirst,
@@ -33,11 +38,8 @@ public class PaginationNavigationView extends LinearLayout
 	}
 
 	private EditText m_pageNoEditText;
-	private Button m_firstButton;
-	private Button m_lastButton;
-	private Button m_preButton;
-	private Button m_goButton;
-	private Button m_nextButton;
+	private ImageButton m_preButton;
+	private ImageButton m_nextButton;
 	
 	private boolean m_isGoCanBeUsedAsLast = false;
 	private boolean m_isPageNoEditTextTouched = false;
@@ -54,21 +56,17 @@ public class PaginationNavigationView extends LinearLayout
 	
 	private void initView() {
 		m_pageNoEditText = (EditText) findViewById(R.id.edittext_page_no);
-		m_pageNoEditText.setOnClickListener(this);
-		m_pageNoEditText.setOnTouchListener(this);
+		m_pageNoEditText.setOnKeyListener(this);
 		
-		m_firstButton = (Button)findViewById(R.id.btn_first_page);
-		m_firstButton.setOnClickListener(this);
-		m_lastButton = (Button)findViewById(R.id.btn_last_page);
-		m_lastButton.setOnClickListener(this);
-		m_lastButton.setVisibility(View.GONE);
-		m_preButton = (Button)findViewById(R.id.btn_pre_page);
+		m_preButton = (ImageButton)findViewById(R.id.btn_pre_page);
 		m_preButton.setOnClickListener(this);
-		m_goButton = (Button)findViewById(R.id.btn_go_page);
-		m_goButton.setOnClickListener(this);
-		m_goButton.setText(R.string.go_page);
-		m_nextButton = (Button)findViewById(R.id.btn_next_page);
+		m_preButton.setLongClickable(true);
+		m_preButton.setOnLongClickListener(this);
+		
+		m_nextButton = (ImageButton)findViewById(R.id.btn_next_page);
 		m_nextButton.setOnClickListener(this);
+		m_nextButton.setLongClickable(true);
+		m_nextButton.setOnLongClickListener(this);
 	}
 
 	@Override
@@ -106,15 +104,31 @@ public class PaginationNavigationView extends LinearLayout
 		}
 	}
 	
+	@Override
+	public boolean onLongClick(View view) {
+		if (view.getId() == R.id.btn_pre_page) {
+			NavigationAction action = NavigationAction.GoFirst;
+			if (m_navActionListener != null) {
+				m_navActionListener.onNavigationAction(action);
+			}
+		}
+		else if (view.getId() == R.id.btn_next_page) {
+			NavigationAction action = NavigationAction.GoLast;
+			if (m_navActionListener != null) {
+				m_navActionListener.onNavigationAction(action);
+			}
+		}
+		
+		return true;
+	}
+	
 	public void setNavigationActionListener(OnPaginationNavigationActionListener listener) {
 		m_navActionListener = listener;
 	}
 	
 	public void disableActions() {
-		m_firstButton.setEnabled(false);
 		m_preButton.setEnabled(false);
 		m_nextButton.setEnabled(false);
-		m_lastButton.setEnabled(false);
 	}
 	
 	public int getCurrentPageNumber() {
@@ -126,38 +140,27 @@ public class PaginationNavigationView extends LinearLayout
 	}
 	
 	public void setInvisibleMode() {
-		m_goButton.setVisibility(View.GONE);
 		m_pageNoEditText.setVisibility(View.GONE);
-		m_firstButton.setVisibility(View.GONE);
-		m_lastButton.setVisibility(View.GONE);
 		m_preButton.setVisibility(View.GONE);
 		m_nextButton.setVisibility(View.GONE);
 	}
 	
 	public void setNormalPostMode() {
-		m_goButton.setVisibility(View.GONE);
 		m_pageNoEditText.setVisibility(View.GONE);
-		m_lastButton.setVisibility(View.VISIBLE);
-		m_firstButton.setText(R.string.topic_first_page);
-		m_lastButton.setText(R.string.topic_all_page);
-		m_preButton.setText(R.string.topic_pre_page);
-		m_nextButton.setText(R.string.topic_next_page);
+		//m_preButton.setText(R.string.topic_pre_page);
+		//m_nextButton.setText(R.string.topic_next_page);
 	}
 	
 	public void setSubjectPostMode() {
-		m_goButton.setVisibility(View.VISIBLE);
 		m_pageNoEditText.setVisibility(View.VISIBLE);
-		m_lastButton.setVisibility(View.GONE);
-		m_firstButton.setText(R.string.first_page);
-		m_lastButton.setText(R.string.last_page);
-		m_preButton.setText(R.string.pre_page);
-		m_nextButton.setText(R.string.next_page);
+		//m_preButton.setText(R.string.pre_page);
+		//m_nextButton.setText(R.string.next_page);
 	}
 	
 	public void setGoCanBeUsedAsLast() {
-		m_isGoCanBeUsedAsLast = true;
-		m_pageNoEditText.setTextColor(Color.GRAY);
-		m_goButton.setText(R.string.go_and_last_page);
+		//m_isGoCanBeUsedAsLast = true;
+		//m_pageNoEditText.setTextColor(Color.GRAY);
+		//m_goButton.setText(R.string.go_and_last_page);
 	}
 
 	@Override
@@ -178,6 +181,24 @@ public class PaginationNavigationView extends LinearLayout
 		
 		m_isPageNoEditTextTouched = true;
 	}
+
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_ENTER) {
+			if (m_navActionListener != null) {
+				m_navActionListener.onNavigationAction(NavigationAction.GoPageNumber);
+				
+				InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+	            imm.hideSoftInputFromWindow(getWindowToken(), 0);
+	       
+			}
+			return true;
+		}
+		
+		return false;
+	}
+
+	
 	
 	
 	

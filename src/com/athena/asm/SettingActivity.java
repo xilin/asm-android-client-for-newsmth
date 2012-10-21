@@ -46,9 +46,9 @@ public class SettingActivity extends PreferenceActivity implements
 			}
 		} else if (preference.getKey().equals(Preferences.NIGHT_THEME)) {
 			if ((Boolean)newValue) {
-				aSMApplication.THEME = R.style.Theme_Sherlock;
+				aSMApplication.THEME = R.style.Theme_Asm;
 			} else {
-				aSMApplication.THEME = R.style.Theme_Sherlock_Light;
+				aSMApplication.THEME = R.style.Theme_Asm_Light;
 			}
 		}
 		return true;
