@@ -36,7 +36,7 @@ public class aSMApplication extends Application {
 
 	private static aSMApplication m_application;
 	public static int THEME = R.style.Theme_Asm;
-	public static int ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
+	public static int ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 
 	private boolean m_isFirstLaunch = false;
 	private boolean m_isLoadDefaultCategoryFile = false;
