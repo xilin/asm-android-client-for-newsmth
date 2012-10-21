@@ -5,7 +5,7 @@
 	android:paddingLeft="50dp" android:paddingRight="12dp">
 	<TextView android:id="@+id/SectionName"
 		android:layout_height="wrap_content" android:layout_width="fill_parent"
-		android:textColor="@color/status_text" android:gravity="center_vertical|left"
+		android:textColor="?attr/statusTextColor" android:gravity="center_vertical|left"
 		android:layout_marginTop="4dp" android:layout_marginBottom="4dp"
 		android:textSize="25dp" />
 </RelativeLayout>

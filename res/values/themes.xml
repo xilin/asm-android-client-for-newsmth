@@ -3,10 +3,48 @@
     <style name="Theme.Asm" parent="Theme.Sherlock">
        <item name="navNextDrawable">@drawable/nav_next_item</item>
        <item name="navPrevDrawable">@drawable/nav_prev_item</item>
+       
+       <item name="homeDrawable">@drawable/home</item>
+       <item name="favoriteDrawable">@drawable/favorite</item>
+       <item name="categoryDrawable">@drawable/category</item>
+       <item name="mailDrawable">@drawable/mail</item>
+       <item name="profileDrawable">@drawable/profile</item>
+       
+       <item name="writeIcon">@drawable/write</item>
+       <item name="switchIcon">@drawable/switcher</item>
+       <item name="refreshIcon">@drawable/refresh</item>
+       <item name="searchIcon">@drawable/search</item>
+       <item name="cleanIcon">@drawable/clean</item>
+       <item name="settingIcon">@drawable/setting</item>
+       <item name="aboutIcon">@drawable/about</item>
+       <item name="saveIcon">@drawable/save</item>
+       
+       <item name="statusTextColor">@color/status_text_night</item>
+       <item name="blueTextColor">@color/blue_text_night</item>
+		
     </style>
     
     <style name="Theme.Asm.Light" parent="Theme.Sherlock.Light">
        <item name="navNextDrawable">@drawable/nav_next_item_inverse</item>
        <item name="navPrevDrawable">@drawable/nav_prev_item_inverse</item>
+       
+       <item name="homeDrawable">@drawable/home_inverse</item>
+       <item name="favoriteDrawable">@drawable/favorite_inverse</item>
+       <item name="categoryDrawable">@drawable/category_inverse</item>
+       <item name="mailDrawable">@drawable/mail_inverse</item>
+       <item name="profileDrawable">@drawable/profile_inverse</item>
+       
+       <item name="writeIcon">@drawable/write_inverse</item>
+       <item name="switchIcon">@drawable/switcher_inverse</item>
+       <item name="refreshIcon">@drawable/refresh_inverse</item>
+       <item name="searchIcon">@drawable/search_inverse</item>
+       <item name="cleanIcon">@drawable/clean_inverse</item>
+       <item name="settingIcon">@drawable/setting_inverse</item>
+       <item name="aboutIcon">@drawable/about_inverse</item>
+       <item name="saveIcon">@drawable/save_inverse</item>
+       
+       <item name="statusTextColor">@color/status_text</item>
+       <item name="blueTextColor">@color/blue_text</item>
     </style>
+
 </resources>

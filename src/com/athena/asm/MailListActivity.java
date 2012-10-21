@@ -19,6 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.athena.asm.Adapter.MailListAdapter;
 import com.athena.asm.data.Mail;
 import com.athena.asm.fragment.SubjectListFragment;
+import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadMailListTask;
 import com.athena.asm.viewmodel.BaseViewModel;
@@ -153,12 +154,8 @@ public class MailListActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
-
 		menu.add(0, REFRESH_MAILLIST, Menu.NONE, "刷新")
-				.setIcon(
-						isLight ? R.drawable.refresh_inverse
-								: R.drawable.refresh)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.refreshIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		if (m_viewModel.getMailboxType() > 3) {

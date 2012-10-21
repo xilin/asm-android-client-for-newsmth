@@ -29,6 +29,7 @@ import com.athena.asm.Adapter.BoardTypeListAdapter;
 import com.athena.asm.Adapter.SubjectListAdapter;
 import com.athena.asm.data.Board;
 import com.athena.asm.data.Subject;
+import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadSubjectTask;
@@ -198,28 +199,19 @@ public class SubjectListFragment extends SherlockFragment implements
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// super.onCreateOptionsMenu(menu, inflater);
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
-
 		if (SmthSupport.getInstance().getLoginStatus()) {
 			menu.add(0, CREATE_ID, Menu.NONE, "发新贴")
-					.setIcon(
-							isLight ? R.drawable.write_inverse
-									: R.drawable.write)
+					.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.writeIcon))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		}
 		menu.add(0, QUICK_SWITCH_BOARD_TYPE, Menu.NONE, "模式切换")
-				.setIcon(
-						isLight ? R.drawable.switcher_inverse
-								: R.drawable.switcher)
+				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.switchIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, REFRESH_SUBJECTLIST, Menu.NONE, "刷新")
-				.setIcon(
-						isLight ? R.drawable.refresh_inverse
-								: R.drawable.refresh)
+				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.refreshIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, SEARCH_POST, Menu.NONE, "搜索")
-				.setIcon(
-						isLight ? R.drawable.search_inverse : R.drawable.search)
+				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.searchIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, SWITCH_BOARD_TYPE, Menu.NONE, "切换到...").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_NEVER

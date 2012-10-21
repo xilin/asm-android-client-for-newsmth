@@ -52,14 +52,6 @@ public class CategoryListAdapter extends BaseAdapter {
 			
 			holder.boardNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, aSMApplication.getCurrentApplication().getGuidanceSecondFontSize());
 
-			if (aSMApplication.getCurrentApplication().isNightTheme()) {
-				holder.categoryNameTextView.setTextColor(layout.getResources().getColor(
-						R.color.status_text_night));
-				holder.moderatorIDTextView.setTextColor(layout.getResources().getColor(
-						R.color.status_text_night));
-				holder.boardNameTextView.setTextColor(layout.getResources().getColor(
-						R.color.status_text_night));
-			}
 			layout.setTag(holder);
 		}
 		

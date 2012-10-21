@@ -147,14 +147,10 @@ public class PaginationNavigationView extends LinearLayout
 	
 	public void setNormalPostMode() {
 		m_pageNoEditText.setVisibility(View.GONE);
-		//m_preButton.setText(R.string.topic_pre_page);
-		//m_nextButton.setText(R.string.topic_next_page);
 	}
 	
 	public void setSubjectPostMode() {
 		m_pageNoEditText.setVisibility(View.VISIBLE);
-		//m_preButton.setText(R.string.pre_page);
-		//m_nextButton.setText(R.string.next_page);
 	}
 	
 	public void setGoCanBeUsedAsLast() {
@@ -173,12 +169,6 @@ public class PaginationNavigationView extends LinearLayout
 	}
 	
 	private void changePageNoEditStatus() {
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			m_pageNoEditText.setTextColor(Color.WHITE);
-		} else {
-			m_pageNoEditText.setTextColor(Color.BLACK);
-		}
-		
 		m_isPageNoEditTextTouched = true;
 	}
 

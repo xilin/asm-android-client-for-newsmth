@@ -2,4 +2,22 @@
 <resources>
     <attr name="navNextDrawable" format="reference" />
     <attr name="navPrevDrawable" format="reference" />
+    
+    <attr name="homeDrawable" format="reference" />
+    <attr name="favoriteDrawable" format="reference" />
+    <attr name="categoryDrawable" format="reference" />
+    <attr name="mailDrawable" format="reference" />
+    <attr name="profileDrawable" format="reference" />
+    
+    <attr name="writeIcon" format="reference" />
+    <attr name="switchIcon" format="reference" />
+    <attr name="refreshIcon" format="reference" />
+    <attr name="searchIcon" format="reference" />
+    <attr name="cleanIcon" format="reference" />
+    <attr name="settingIcon" format="reference" />
+    <attr name="aboutIcon" format="reference" />
+    <attr name="saveIcon" format="reference" />
+    
+    <attr name="statusTextColor" format="reference" />
+    <attr name="blueTextColor" format="reference" />
 </resources>

@@ -13,7 +13,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical|left"
-        android:textColor="@color/status_text"
+        android:textColor="?attr/statusTextColor"
         android:textSize="25dp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_centerInParent="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="4dp"
-        android:textColor="@color/status_text"
+        android:textColor="?attr/statusTextColor"
         android:textSize="25dp"  />
 
 </RelativeLayout>

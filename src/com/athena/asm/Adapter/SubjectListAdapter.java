@@ -55,12 +55,7 @@ public class SubjectListAdapter extends BaseAdapter {
 		dateTextView.setText(subject.getDateString());
 		
 		layout.setTag(subject);
-		
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			titleTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-			authorTextView.setTextColor(layout.getResources().getColor(R.color.blue_text_night));
-		}
-
+	
 		return layout;
 	}
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.view.TouchImageView;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
@@ -51,10 +52,8 @@ public class FullImageActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// super.onCreateOptionsMenu(menu);
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
-
 		menu.add(0, Menu.FIRST, Menu.NONE, "保存")
-				.setIcon(isLight ? R.drawable.save_inverse : R.drawable.save)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.saveIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		return true;

@@ -24,6 +24,7 @@ import com.athena.asm.fragment.GuidanceListFragment;
 import com.athena.asm.fragment.MailFragment;
 import com.athena.asm.fragment.ProfileFragment;
 import com.athena.asm.service.CheckMessageService;
+import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoginTask;
 import com.athena.asm.viewmodel.BaseViewModel;
@@ -48,7 +49,7 @@ public class HomeActivity extends SherlockFragmentActivity
 	TabsAdapter m_tabsAdapter;
 	
 	private ProgressDialog m_pdialog;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		aSMApplication application = aSMApplication.getCurrentApplication();
@@ -67,33 +68,23 @@ public class HomeActivity extends SherlockFragmentActivity
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
-
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
-
+		
 		m_tabsAdapter = new TabsAdapter(this, m_viewPager);
 		m_tabsAdapter.addTab(
-				actionBar.newTab().setIcon(
-						isLight ? R.drawable.home_inverse : R.drawable.home),
+				actionBar.newTab().setIcon(ResourceUtil.getThemedResource(this, R.attr.homeDrawable)),
 				GuidanceListFragment.class, null);
 		m_tabsAdapter.addTab(
-				actionBar.newTab().setIcon(
-						isLight ? R.drawable.favorite_inverse
-								: R.drawable.favorite),
+				actionBar.newTab().setIcon(ResourceUtil.getThemedResource(this, R.attr.favoriteDrawable)),
 				FavoriteListFragment.class, null);
 		m_tabsAdapter.addTab(
-				actionBar.newTab().setIcon(
-						isLight ? R.drawable.category_inverse
-								: R.drawable.category), CategoryFragment.class,
-				null);
+				actionBar.newTab().setIcon(ResourceUtil.getThemedResource(this, R.attr.categoryDrawable)),
+				CategoryFragment.class, null);
 		m_tabsAdapter.addTab(
-				actionBar.newTab().setIcon(
-						isLight ? R.drawable.mail_inverse : R.drawable.mail),
+				actionBar.newTab().setIcon(ResourceUtil.getThemedResource(this, R.attr.mailDrawable)),
 				MailFragment.class, null);
 		m_tabsAdapter.addTab(
-				actionBar.newTab().setIcon(
-						isLight ? R.drawable.profile_inverse
-								: R.drawable.profile), ProfileFragment.class,
-				null);
+				actionBar.newTab().setIcon(ResourceUtil.getThemedResource(this, R.attr.profileDrawable)),
+				ProfileFragment.class, null);
 		m_tabsAdapter.finishInit();
 		
 		m_inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -323,23 +314,17 @@ public class HomeActivity extends SherlockFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// super.onCreateOptionsMenu(menu);
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
-
 		menu.add(0, CLEAN, Menu.NONE, "清除缓存")
-				.setIcon(isLight ? R.drawable.clean_inverse : R.drawable.clean)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.cleanIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, SETTING, Menu.NONE, "设置")
-				.setIcon(
-						isLight ? R.drawable.setting_inverse
-								: R.drawable.setting)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.settingIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, REFRESH, Menu.NONE, "刷新")
-				.setIcon(
-						isLight ? R.drawable.refresh_inverse
-								: R.drawable.refresh)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.refreshIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, ABOUT, Menu.NONE, "关于")
-				.setIcon(isLight ? R.drawable.about_inverse : R.drawable.about)
+				.setIcon(ResourceUtil.getThemedResource(this, R.attr.aboutIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, LOGOUT, Menu.NONE, "注销").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_NEVER

@@ -49,11 +49,6 @@ public class SearchPostResultListAdapter extends BaseAdapter {
 		
 		layout.setTag(subject);
 		
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			authorTextView.setTextColor(layout.getResources().getColor(R.color.blue_text_night));
-			titleTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-		}
-
 		return layout;
 	}
 

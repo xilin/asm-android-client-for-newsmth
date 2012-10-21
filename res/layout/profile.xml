@@ -30,6 +30,7 @@
                 <TextView
                     android:id="@+id/profile_userid"
                     style="@style/LinkText.Bold.Huge"
+                    android:textColor="?attr/blueTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
                 </TextView>
@@ -38,6 +39,7 @@
                 <TextView
                     android:id="@+id/profile_user_score"
                     style="@style/LinkText.Bold.Huge"
+                    android:textColor="?attr/blueTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/profile_userid" />
@@ -46,6 +48,7 @@
                 <TextView
                     android:id="@+id/profile_user_nickname"
                     style="@style/LinkText.Bold.Huge"
+                    android:textColor="?attr/blueTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/profile_user_score" />

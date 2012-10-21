@@ -91,8 +91,8 @@ public class aSMApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(getApplicationContext());
+		//CrashHandler crashHandler = CrashHandler.getInstance();
+		//crashHandler.init(getApplicationContext());
 
 		m_application = this;
 		m_application.initPreferences();

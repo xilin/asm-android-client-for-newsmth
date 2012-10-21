@@ -56,11 +56,6 @@ public class GuidanceListAdapter extends BaseExpandableListAdapter {
 		titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, aSMApplication.getCurrentApplication().getGuidanceSecondFontSize());
 		layout.setTag(subject);
 		
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			boardNameTextView.setTextColor(layout.getResources().getColor(R.color.blue_text_night));
-			titleTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-			authorTextView.setTextColor(layout.getResources().getColor(R.color.blue_text_night));
-		}
 		return layout;
 	}
 
@@ -93,9 +88,6 @@ public class GuidanceListAdapter extends BaseExpandableListAdapter {
 				.findViewById(R.id.SectionName);
 		boardNameTextView.setText(m_sections.get(groupPosition));
 		boardNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, aSMApplication.getCurrentApplication().getGuidanceFontSize());
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			boardNameTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-		}
 		return layout;
 	}
 

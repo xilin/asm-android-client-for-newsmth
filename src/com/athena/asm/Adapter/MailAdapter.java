@@ -75,11 +75,6 @@ public class MailAdapter extends BaseAdapter {
 			break;
 		}
 		
-		if (aSMApplication.getCurrentApplication().isNightTheme()) {
-			boxNameTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-			numberTextView.setTextColor(layout.getResources().getColor(R.color.status_text_night));
-		}
-
 		return layout;
 	}
 

@@ -46,6 +46,7 @@ import com.athena.asm.data.Board;
 import com.athena.asm.data.Mail;
 import com.athena.asm.data.Post;
 import com.athena.asm.data.Subject;
+import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.ForwardPostToMailTask;
 import com.athena.asm.util.task.LoadPostTask;
@@ -471,14 +472,11 @@ public class PostListFragment extends SherlockFragment implements
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		boolean isLight = !aSMApplication.getCurrentApplication().isNightTheme();
 		((SherlockFragmentActivity) getActivity()).getSupportMenuInflater()
 				.inflate(R.menu.share_action_provider, menu);
 
 		menu.add(0, REFRESH_SUBJECTLIST, Menu.NONE, "刷新")
-				.setIcon(
-						isLight ? R.drawable.refresh_inverse
-								: R.drawable.refresh)
+				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.refreshIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		MenuItem actionItem = menu

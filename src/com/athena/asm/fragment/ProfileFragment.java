@@ -153,15 +153,6 @@ public class ProfileFragment extends SherlockFragment implements
 				break;
 			}
 
-			if (aSMApplication.getCurrentApplication().isNightTheme()) {
-				userIDTextView.setTextColor(m_layout.getResources().getColor(
-						R.color.blue_text_night));
-				userScoreTextView.setTextColor(m_layout.getResources().getColor(
-						R.color.blue_text_night));
-				userNicknameTextView.setTextColor(m_layout.getResources()
-						.getColor(R.color.blue_text_night));
-			}
-
 		}
 	}
 
