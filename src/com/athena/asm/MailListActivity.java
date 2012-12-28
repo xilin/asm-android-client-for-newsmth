@@ -5,10 +5,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,11 +20,14 @@ import com.athena.asm.fragment.SubjectListFragment;
 import com.athena.asm.util.ResourceUtil;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadMailListTask;
+import com.athena.asm.view.PaginationNavigationView;
+import com.athena.asm.view.PaginationNavigationView.NavigationAction;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.MailViewModel;
 
 public class MailListActivity extends SherlockActivity implements
-		OnClickListener, BaseViewModel.OnViewModelChangObserver {
+		BaseViewModel.OnViewModelChangObserver,
+        PaginationNavigationView.OnPaginationNavigationActionListener{
 
 	private LayoutInflater m_inflater;
 
@@ -53,19 +54,12 @@ public class MailListActivity extends SherlockActivity implements
 
 		setTitle(m_viewModel.getTitleText());
 
-		EditText pageNoEditText = (EditText) findViewById(R.id.edittext_page_no);
-		pageNoEditText.setVisibility(View.GONE);
+        PaginationNavigationView pageNavigationView = (PaginationNavigationView)findViewById(R.id.pagination_nav);
+        pageNavigationView.setNavigationActionListener(this);
 
-		Button firstButton = (Button) findViewById(R.id.btn_first_page);
-		firstButton.setOnClickListener(this);
-		Button lastButton = (Button) findViewById(R.id.btn_last_page);
-		lastButton.setOnClickListener(this);
-		Button preButton = (Button) findViewById(R.id.btn_pre_page);
-		preButton.setOnClickListener(this);
-		Button goButton = (Button) findViewById(R.id.btn_go_page);
-		goButton.setVisibility(View.GONE);
-		Button nextButton = (Button) findViewById(R.id.btn_next_page);
-		nextButton.setOnClickListener(this);
+		EditText pageNoEditText = (EditText) findViewById(R.id.edittext_page_no);
+		pageNoEditText.setVisibility(View.INVISIBLE);
+        pageNoEditText.setEnabled(false);
 
 		if (isToUpdate) {
 			LoadMailListTask loadMailListTask = new LoadMailListTask(this,
@@ -132,23 +126,6 @@ public class MailListActivity extends SherlockActivity implements
 		m_listAdapter.notifyDataSetChanged();
 	}
 
-	@Override
-	public void onClick(View view) {
-		int startNumber = 0;
-		if (view.getId() == R.id.btn_first_page) {
-			startNumber = m_viewModel.getFirstPageStartNumber();
-		} else if (view.getId() == R.id.btn_last_page) {
-			startNumber = m_viewModel.getLastPageStartNumber();
-		} else if (view.getId() == R.id.btn_pre_page) {
-			startNumber = m_viewModel.getPrevPageStartNumber();
-		} else if (view.getId() == R.id.btn_next_page) {
-			startNumber = m_viewModel.getNextPageStartNumber();
-		}
-		LoadMailListTask loadMailListTask = new LoadMailListTask(this,
-				m_viewModel, startNumber);
-		loadMailListTask.execute();
-	}
-
 	public static final int REFRESH_MAILLIST = Menu.FIRST;
 	public static final int MARK_ALL_READ = Menu.FIRST + 1;
 
@@ -201,4 +178,21 @@ public class MailListActivity extends SherlockActivity implements
 			reloadMailList();
 		}
 	}
+
+    @Override
+    public void onNavigationAction(NavigationAction navAction) {
+        int startNumber = 0;
+        if (navAction == NavigationAction.GoFirst) {
+            startNumber = m_viewModel.getFirstPageStartNumber();
+        } else if (navAction == NavigationAction.GoLast) {
+            startNumber = m_viewModel.getLastPageStartNumber();
+        } else if (navAction == NavigationAction.GoPrev) {
+            startNumber = m_viewModel.getPrevPageStartNumber();
+        } else if (navAction == NavigationAction.GoNext) {
+            startNumber = m_viewModel.getNextPageStartNumber();
+        }
+        LoadMailListTask loadMailListTask = new LoadMailListTask(this,
+                m_viewModel, startNumber);
+        loadMailListTask.execute();
+    }
 }

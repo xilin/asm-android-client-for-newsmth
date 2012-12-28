@@ -14,6 +14,7 @@ import com.athena.asm.data.Mail;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadMailContentTask;
+import com.athena.asm.view.PaginationNavigationView;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.MailViewModel;
 
@@ -44,20 +45,9 @@ public class ReadMailActivity extends SherlockActivity implements BaseViewModel.
 
 		setTitle(m_viewModel.getCurrentMailTitle());
 
-		EditText pageNoEditText = (EditText) findViewById(R.id.edittext_page_no);
-		pageNoEditText.setVisibility(View.GONE);
+        PaginationNavigationView pageNavigationView = (PaginationNavigationView)findViewById(R.id.pagination_nav);
+        pageNavigationView.setVisibility(View.GONE);
 
-		Button firstButton = (Button) findViewById(R.id.btn_first_page);
-		firstButton.setVisibility(View.GONE);
-		Button lastButton = (Button) findViewById(R.id.btn_last_page);
-		lastButton.setVisibility(View.GONE);
-		Button preButton = (Button) findViewById(R.id.btn_pre_page);
-		preButton.setVisibility(View.GONE);
-		Button goButton = (Button) findViewById(R.id.btn_go_page);
-		goButton.setVisibility(View.GONE);
-		Button nextButton = (Button) findViewById(R.id.btn_next_page);
-		nextButton.setVisibility(View.GONE);
-		
 		if (isNewMail) {
 			LoadMailContentTask loadMailContentTask = new LoadMailContentTask(this, m_viewModel);
 			loadMailContentTask.execute();
