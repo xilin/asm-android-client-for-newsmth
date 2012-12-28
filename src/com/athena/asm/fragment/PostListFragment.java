@@ -37,12 +37,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.ShareActionProvider;
 import com.athena.asm.ActivityFragmentTargets;
 import com.athena.asm.OnOpenActivityFragmentListener;
+import com.athena.asm.PostListActivity;
 import com.athena.asm.ProgressDialogProvider;
 import com.athena.asm.R;
 import com.athena.asm.WritePostActivity;
 import com.athena.asm.aSMApplication;
 import com.athena.asm.Adapter.PostListAdapter;
-import com.athena.asm.data.Board;
+import com.athena.asm.data.Constants;
 import com.athena.asm.data.Mail;
 import com.athena.asm.data.Post;
 import com.athena.asm.data.Subject;
@@ -128,6 +129,7 @@ public class PostListFragment extends SherlockFragment implements
 		return postListView;
 	}
 
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -469,6 +471,7 @@ public class PostListFragment extends SherlockFragment implements
 	}
 
 	public static final int REFRESH_SUBJECTLIST = Menu.FIRST;
+	public static final int GO_TO_BOARD = Menu.FIRST +1;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -477,6 +480,10 @@ public class PostListFragment extends SherlockFragment implements
 
 		menu.add(0, REFRESH_SUBJECTLIST, Menu.NONE, "刷新")
 				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.refreshIcon))
+				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.add(0, GO_TO_BOARD, Menu.NONE, "返回版面")
+		.setIcon( isLight ? R.drawable.toboard_inverse
+				: R.drawable.toboard)
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		MenuItem actionItem = menu
@@ -493,6 +500,15 @@ public class PostListFragment extends SherlockFragment implements
 			switch (item.getItemId()) {
 			case REFRESH_SUBJECTLIST:
 				refreshPostList();
+				break;
+			case GO_TO_BOARD:
+				if (getActivity() instanceof PostListActivity ){
+					String boardEngName = m_viewModel.getCurrentSubject().getBoardEngName();
+					String boardChsName = m_viewModel.getCurrentSubject().getBoardChsName(); 
+					if(boardEngName != null){
+						((PostListActivity)getActivity()).doFinishBackToBoard(boardEngName, boardChsName);
+					}
+				}
 				break;
 			}
 		}
