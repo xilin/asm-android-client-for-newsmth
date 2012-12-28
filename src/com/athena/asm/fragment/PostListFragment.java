@@ -482,9 +482,8 @@ public class PostListFragment extends SherlockFragment implements
 				.setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.refreshIcon))
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(0, GO_TO_BOARD, Menu.NONE, "返回版面")
-		.setIcon( isLight ? R.drawable.toboard_inverse
-				: R.drawable.toboard)
-				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		    .setIcon(ResourceUtil.getThemedResource(getActivity(), R.attr.toBoardIcon))
+			.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		MenuItem actionItem = menu
 				.findItem(R.id.menu_item_share_action_provider_action_bar);

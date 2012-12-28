@@ -18,6 +18,7 @@
        <item name="settingIcon">@drawable/setting</item>
        <item name="aboutIcon">@drawable/about</item>
        <item name="saveIcon">@drawable/save</item>
+       <item name="toBoardIcon">@drawable/toboard</item>
        
        <item name="statusTextColor">@color/status_text_night</item>
        <item name="blueTextColor">@color/blue_text_night</item>
@@ -42,6 +43,7 @@
        <item name="settingIcon">@drawable/setting_inverse</item>
        <item name="aboutIcon">@drawable/about_inverse</item>
        <item name="saveIcon">@drawable/save_inverse</item>
+       <item name="toBoardIcon">@drawable/toboard_inverse</item>
        
        <item name="statusTextColor">@color/status_text</item>
        <item name="blueTextColor">@color/blue_text</item>

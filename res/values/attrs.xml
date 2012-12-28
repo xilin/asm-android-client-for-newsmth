@@ -17,6 +17,7 @@
     <attr name="settingIcon" format="reference" />
     <attr name="aboutIcon" format="reference" />
     <attr name="saveIcon" format="reference" />
+    <attr name="toBoardIcon" format="reference" />
     
     <attr name="statusTextColor" format="reference" />
     <attr name="blueTextColor" format="reference" />
