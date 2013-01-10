@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.ClipboardManager;
@@ -25,13 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadWritePostTask;
 import com.athena.asm.viewmodel.WritePostViewModel;
 
-public class WritePostActivity extends SherlockActivity implements OnClickListener,
+public class WritePostActivity extends BaseActivity implements OnClickListener,
 		OnItemSelectedListener {
 	static final int ATTACH_REQUST = 0;
 
@@ -45,19 +42,14 @@ public class WritePostActivity extends SherlockActivity implements OnClickListen
 	private Spinner m_sigSpinner;
 	private Button m_attachButton;
 
-	public SmthSupport m_smthSupport;
-
 	private Handler m_handler = new Handler();
 
 	private WritePostViewModel m_viewModel = null;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_reply);
-
-		m_smthSupport = SmthSupport.getInstance();
 		
 		m_viewModel = (WritePostViewModel)getLastNonConfigurationInstance();
 		boolean isNewActivity = true;
@@ -127,12 +119,6 @@ public class WritePostActivity extends SherlockActivity implements OnClickListen
 			}
 			
 		}
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 	
 	@Override

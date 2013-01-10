@@ -3,7 +3,6 @@ package com.athena.asm;
 import java.util.List;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.athena.asm.Adapter.SearchPostResultListAdapter;
 import com.athena.asm.data.Subject;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 
-public class SearchPostResultListActivity extends SherlockActivity {
+public class SearchPostResultListActivity extends BaseActivity {
 
 	public SmthSupport m_smthSupport;
 
@@ -30,7 +28,6 @@ public class SearchPostResultListActivity extends SherlockActivity {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_post_result_list);
 
@@ -62,11 +59,5 @@ public class SearchPostResultListActivity extends SherlockActivity {
 				startActivity(intent);
 			}
 		});
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 }

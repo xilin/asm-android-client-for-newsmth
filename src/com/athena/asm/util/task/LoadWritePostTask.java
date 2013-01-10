@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.athena.asm.WritePostActivity;
+import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.viewmodel.WritePostViewModel;
 
@@ -37,6 +38,7 @@ public class LoadWritePostTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected String doInBackground(String... params) {
 		String postUrl = "";
+		SmthSupport smthSupport = SmthSupport.getInstance();
 		if (type == WritePostActivity.TYPE_POST) {
 			postUrl = "http://www.newsmth.net/bbssnd.php";
 			Map<String, String> paramsMap = StringUtility
@@ -51,7 +53,7 @@ public class LoadWritePostTask extends AsyncTask<String, Integer, String> {
 			
 			m_viewModel.setPostUrl(postUrl);
 
-			contentString = writePostActivity.m_smthSupport
+			contentString = smthSupport
 					.getUrlContent(m_viewModel.getToHandlerUrl());
 		} else if (type == WritePostActivity.TYPE_MAIL) {
 			postUrl = "http://www.newsmth.net/bbssendmail.php";
@@ -93,7 +95,7 @@ public class LoadWritePostTask extends AsyncTask<String, Integer, String> {
 			
 			m_viewModel.setPostUrl(postUrl);
 
-			contentString = writePostActivity.m_smthSupport
+			contentString = smthSupport
 					.getUrlContent(m_viewModel.getToHandlerUrl());
 		} else if (type == WritePostActivity.TYPE_POST_EDIT) {
 			postUrl = "http://www.newsmth.net/bbsedit.php";
@@ -108,7 +110,7 @@ public class LoadWritePostTask extends AsyncTask<String, Integer, String> {
 			postUrl += "&ftype=0";
 			m_viewModel.setPostUrl(postUrl);
 			
-			contentString = writePostActivity.m_smthSupport
+			contentString = smthSupport
 					.getUrlContent(m_viewModel.getToHandlerUrl());
 		}
 		return null;

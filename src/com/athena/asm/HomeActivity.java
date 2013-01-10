@@ -33,7 +33,7 @@ import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.HomeViewModel;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
-public class HomeActivity extends SherlockFragmentActivity
+public class HomeActivity extends BaseFragmentActivity
 						  implements OnOpenActivityFragmentListener,
 						  BaseViewModel.OnViewModelChangObserver {
 
@@ -55,9 +55,6 @@ public class HomeActivity extends SherlockFragmentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		aSMApplication application = aSMApplication.getCurrentApplication();
-
-		setTheme(aSMApplication.THEME);
-
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// setContentView(R.layout.home);

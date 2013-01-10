@@ -1,14 +1,10 @@
 package com.athena.asm;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.athena.asm.Adapter.ReadMailAdapter;
 import com.athena.asm.data.Mail;
 import com.athena.asm.util.SmthSupport;
@@ -18,7 +14,7 @@ import com.athena.asm.view.PaginationNavigationView;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.MailViewModel;
 
-public class ReadMailActivity extends SherlockActivity implements BaseViewModel.OnViewModelChangObserver {
+public class ReadMailActivity extends BaseActivity implements BaseViewModel.OnViewModelChangObserver {
 
 	public SmthSupport m_smthSupport;
 
@@ -28,7 +24,6 @@ public class ReadMailActivity extends SherlockActivity implements BaseViewModel.
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_list);
 
@@ -56,12 +51,6 @@ public class ReadMailActivity extends SherlockActivity implements BaseViewModel.
 			loadMailContent();
 		}
 		
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 	
 	@Override

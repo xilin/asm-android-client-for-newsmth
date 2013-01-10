@@ -2,7 +2,6 @@ package com.athena.asm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.LinkMovementMethod;
@@ -14,11 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 
-public class LoginActivity extends SherlockFragmentActivity implements
+public class LoginActivity extends BaseFragmentActivity implements
 		OnClickListener {
 	private EditText m_userNameEditText;
 	private EditText m_passwordEditText;
@@ -29,7 +27,6 @@ public class LoginActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setTheme(R.style.Theme_Asm_Light);
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
@@ -54,12 +51,6 @@ public class LoginActivity extends SherlockFragmentActivity implements
 		gbutton.setOnClickListener(this);
 		
 		setRequestedOrientation(aSMApplication.ORIENTATION);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 
 	public void showSuccessToast() {

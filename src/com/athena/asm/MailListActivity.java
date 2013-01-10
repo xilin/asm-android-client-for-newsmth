@@ -1,7 +1,6 @@
 package com.athena.asm;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.athena.asm.Adapter.MailListAdapter;
@@ -25,7 +23,7 @@ import com.athena.asm.view.PaginationNavigationView.NavigationAction;
 import com.athena.asm.viewmodel.BaseViewModel;
 import com.athena.asm.viewmodel.MailViewModel;
 
-public class MailListActivity extends SherlockActivity implements
+public class MailListActivity extends BaseActivity implements
 		BaseViewModel.OnViewModelChangObserver,
         PaginationNavigationView.OnPaginationNavigationActionListener{
 
@@ -36,8 +34,7 @@ public class MailListActivity extends SherlockActivity implements
 	private MailListAdapter m_listAdapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_list);
 
@@ -69,12 +66,6 @@ public class MailListActivity extends SherlockActivity implements
 			reloadMailList();
 		}
 
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override

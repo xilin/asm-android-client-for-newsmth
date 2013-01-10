@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.athena.asm.util.ResourceUtil;
@@ -22,7 +21,7 @@ import com.athena.asm.util.StringUtility;
 import com.athena.asm.view.TouchImageView;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
-public class FullImageActivity extends SherlockActivity {
+public class FullImageActivity extends BaseActivity {
 
 	private TouchImageView m_image;
 	private String m_imageName;
@@ -30,7 +29,6 @@ public class FullImageActivity extends SherlockActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.full_image);
 

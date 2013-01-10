@@ -7,12 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -21,7 +18,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.athena.asm.ActivityFragmentTargets;
 import com.athena.asm.HomeActivity;
 import com.athena.asm.OnOpenActivityFragmentListener;
-import com.athena.asm.PostListActivity;
 import com.athena.asm.ProgressDialogProvider;
 import com.athena.asm.R;
 import com.athena.asm.aSMApplication;
@@ -142,13 +138,13 @@ public class SubjectListFragment extends SherlockFragment implements
 	}
 
 	public void reloadSubjectList() {
-		if (m_viewModel.getSubjectList() != null) {
+		if (m_viewModel.getSubjectList() != null && getActivity() != null) {
 			if (m_viewModel.isFirstIn()) {
 				m_viewModel.gotoFirstPage();
 				m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
 				m_viewModel.setIsFirstIn(false);
 			}
-
+			
 			PullToRefreshListView listView = (PullToRefreshListView) getActivity()
 					.findViewById(R.id.subject_list);
 			listView.onRefreshComplete();

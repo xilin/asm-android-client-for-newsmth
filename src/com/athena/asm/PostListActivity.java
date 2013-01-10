@@ -3,17 +3,13 @@ package com.athena.asm;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.athena.asm.data.Mail;
-import com.athena.asm.data.Subject;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.viewmodel.PostListViewModel;
 
-public class PostListActivity extends SherlockFragmentActivity
+public class PostListActivity extends BaseFragmentActivity
 							  implements ProgressDialogProvider,
 							  OnOpenActivityFragmentListener {
 	
@@ -23,7 +19,6 @@ public class PostListActivity extends SherlockFragmentActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.post_list_activity);
@@ -33,12 +28,6 @@ public class PostListActivity extends SherlockFragmentActivity
 		
 		aSMApplication application = (aSMApplication) getApplication();
 		m_viewModel = application.getPostListViewModel();
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 	
 	@Override

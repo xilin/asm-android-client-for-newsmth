@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,9 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.athena.asm.PostListActivity"
-            android:screenOrientation="portrait" >
+        <activity android:name="com.athena.asm.PostListActivity" >
         </activity>
         <activity android:name="com.athena.asm.SubjectListActivity" >
         </activity>

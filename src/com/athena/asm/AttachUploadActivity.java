@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,13 +13,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.athena.asm.Adapter.AttachListAdapter;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.UploadAttachFilesTask;
 
-public class AttachUploadActivity extends SherlockActivity implements
+public class AttachUploadActivity extends BaseActivity implements
 		OnClickListener {
 
 	static final int SELECT_FILE_REQUEST = 0;
@@ -37,7 +35,6 @@ public class AttachUploadActivity extends SherlockActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.attach_list);
 
@@ -91,12 +88,6 @@ public class AttachUploadActivity extends SherlockActivity implements
 		} else {
 			Toast.makeText(this, "无法上传，请退出重试", Toast.LENGTH_SHORT);
 		}
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override

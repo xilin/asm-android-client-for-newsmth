@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.athena.asm.ViewProfileActivity;
 import com.athena.asm.data.Profile;
+import com.athena.asm.util.SmthSupport;
 import com.athena.asm.viewmodel.HomeViewModel;
 
 public class LoadProfileTask extends AsyncTask<String, Integer, String> {
@@ -43,7 +44,8 @@ public class LoadProfileTask extends AsyncTask<String, Integer, String> {
 			profile = m_viewModel.getProfile(userID);
 		}
 		else {
-			profile = viewProfileActivity.m_smthSupport.getProfile(userID);
+			SmthSupport smthSupport = SmthSupport.getInstance();
+			profile = smthSupport.getProfile(userID);
 		}
 		pdialog.cancel();
 		return null;

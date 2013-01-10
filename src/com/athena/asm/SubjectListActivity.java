@@ -2,34 +2,21 @@ package com.athena.asm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.athena.asm.data.Mail;
-import com.athena.asm.data.Subject;
-import com.athena.asm.util.StringUtility;
-
-public class SubjectListActivity extends SherlockFragmentActivity
+public class SubjectListActivity extends BaseFragmentActivity
 								 implements ProgressDialogProvider, OnOpenActivityFragmentListener {
 	
 	private ProgressDialog m_pdialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setRequestedOrientation(aSMApplication.ORIENTATION);
 		setContentView(R.layout.subject_list_activity);	
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		setRequestedOrientation(aSMApplication.ORIENTATION);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 	
 	public void showProgressDialog() {

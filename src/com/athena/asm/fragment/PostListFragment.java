@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -18,11 +17,9 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -193,51 +190,53 @@ public class PostListFragment extends SherlockFragment implements
 	}
 
 	public void reloadPostList() {
-		if (m_viewModel.getPostList() == null) {
+		if (getActivity() != null) {
+			if (m_viewModel.getPostList() == null) {
 
-			m_viewModel.ensurePostExists();
+				m_viewModel.ensurePostExists();
+				
+				m_pageNavigationView.disableActions();
+			}
 			
-			m_pageNavigationView.disableActions();
-		}
+			if (m_actionProvider != null) {
+				m_actionProvider.setShareIntent(createShareIntent());
+			}
 
-        if (m_actionProvider != null) {
-            m_actionProvider.setShareIntent(createShareIntent());
-        }
+			m_listView.setAdapter(new PostListAdapter(this, m_inflater, m_viewModel
+					.getPostList()));
 
-		m_listView.setAdapter(new PostListAdapter(this, m_inflater, m_viewModel
-				.getPostList()));
+			m_viewModel.updateCurrentPageNumberFromSubject();
+			m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
+			m_listView.requestFocus();
 
-		m_viewModel.updateCurrentPageNumberFromSubject();
-		m_pageNavigationView.setPageNumberText(m_viewModel.getCurrentPageNumber() + "");
-		m_listView.requestFocus();
+			m_viewModel.setIsPreloadFinished(false);
+			m_viewModel.updatePreloadSubjectFromCurrentSubject();
 
-		m_viewModel.setIsPreloadFinished(false);
-		m_viewModel.updatePreloadSubjectFromCurrentSubject();
+			if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_SUBJECT) {
+				m_pageNavigationView.setSubjectPostMode();
+			} else if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_NORMAL
+					&& !m_isFromReplyOrAt) {
+				m_pageNavigationView.setNormalPostMode();
+			} else {
+				m_pageNavigationView.setInvisibleMode();
+			}
+			getActivity().setTitle(m_viewModel.getSubjectTitle());
 
-		if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_SUBJECT) {
-			m_pageNavigationView.setSubjectPostMode();
-		} else if (m_viewModel.getBoardType() == SubjectListFragment.BOARD_TYPE_NORMAL
-				&& !m_isFromReplyOrAt) {
-			m_pageNavigationView.setNormalPostMode();
-		} else {
-			m_pageNavigationView.setInvisibleMode();
-		}
-		getActivity().setTitle(m_viewModel.getSubjectTitle());
-
-		if (m_viewModel.getBoardType() == 0) {
-			int nextPage = m_viewModel.getNextPageNumber();
-			if (nextPage > 0) {
-				m_viewModel.getPreloadSubject().setCurrentPageNo(nextPage);
+			if (m_viewModel.getBoardType() == 0) {
+				int nextPage = m_viewModel.getNextPageNumber();
+				if (nextPage > 0) {
+					m_viewModel.getPreloadSubject().setCurrentPageNo(nextPage);
+					LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
+							m_viewModel.getPreloadSubject(), 0, true, false,
+							m_startNumber, null);
+					loadPostTask.execute();
+				}
+			} else {
 				LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
-						m_viewModel.getPreloadSubject(), 0, true, false,
+						m_viewModel.getPreloadSubject(), 3, true, false,
 						m_startNumber, null);
 				loadPostTask.execute();
 			}
-		} else {
-			LoadPostTask loadPostTask = new LoadPostTask(m_viewModel,
-					m_viewModel.getPreloadSubject(), 3, true, false,
-					m_startNumber, null);
-			loadPostTask.execute();
 		}
 	}
 
@@ -489,8 +488,8 @@ public class PostListFragment extends SherlockFragment implements
 		MenuItem actionItem = menu
 				.findItem(R.id.menu_item_share_action_provider_action_bar);
 		m_actionProvider = (ShareActionProvider) actionItem.getActionProvider();
-		m_actionProvider
-				.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+//		m_actionProvider
+//				.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
 	}
 
 	@Override

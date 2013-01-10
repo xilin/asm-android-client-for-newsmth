@@ -8,23 +8,16 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.athena.asm.data.Profile;
-import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.util.task.LoadProfileTask;
 
-public class ViewProfileActivity extends SherlockActivity {
+public class ViewProfileActivity extends BaseActivity {
 	
-	public SmthSupport m_smthSupport;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
-		
-		m_smthSupport = SmthSupport.getInstance();
 		
 		String userID = getIntent().getStringExtra(StringUtility.USERID);
 		

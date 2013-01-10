@@ -1,24 +1,21 @@
 package com.athena.asm.view;
 
-import com.athena.asm.R;
-import com.athena.asm.aSMApplication;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.view.KeyEvent;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
-import android.view.View.OnKeyListener;
-import android.view.inputmethod.InputMethodManager;
+
+import com.athena.asm.R;
 
 
 public class PaginationNavigationView extends LinearLayout 

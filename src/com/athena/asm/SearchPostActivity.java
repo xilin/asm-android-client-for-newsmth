@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -13,13 +12,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.athena.asm.data.Subject;
 import com.athena.asm.util.SmthSupport;
 import com.athena.asm.util.StringUtility;
 import com.athena.asm.viewmodel.SearchPostViewModel;
 
-public class SearchPostActivity extends SherlockActivity implements
+public class SearchPostActivity extends BaseActivity implements
 		OnClickListener {
 	public SmthSupport m_smthSupport;
 
@@ -39,7 +37,6 @@ public class SearchPostActivity extends SherlockActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(aSMApplication.THEME);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_post);
 
@@ -68,12 +65,6 @@ public class SearchPostActivity extends SherlockActivity implements
 
 		m_startSearchButton = (Button) findViewById(R.id.btn_start_post_search);
 		m_startSearchButton.setOnClickListener(this);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// do nothing to stop onCreated
-		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override
