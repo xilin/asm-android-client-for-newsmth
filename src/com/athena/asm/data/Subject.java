@@ -9,6 +9,7 @@ public class Subject implements Serializable {
 	private String topicSubjectID;
 	private String title;
 	private String author;
+	private String replies = "";
 	private String boardID;
 	private String boardEngName;
 	private String boardChsName;
@@ -35,6 +36,7 @@ public class Subject implements Serializable {
 		this.type = subject.type;
 		this.totalPageNo = subject.totalPageNo;
 		this.currentPageNo = subject.currentPageNo;
+		this.replies = replies;
 	}
 
 	public String getSubjectID() {
@@ -123,5 +125,13 @@ public class Subject implements Serializable {
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+	}
+	
+	public void setReplies(String replies) {
+		this.replies = replies;
+	}
+	
+	public String getReplies() {
+		return this.replies;
 	}
 }

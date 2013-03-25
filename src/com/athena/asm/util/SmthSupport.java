@@ -834,7 +834,7 @@ public class SmthSupport {
 			subjectList.add(subject);
 		}
 
-		// <a href="/article/PocketLife/1047054" class="top">title
+		// <a href="/article/PocketLife/1047054" class="top">title</a>(replies)</div>
 		String subPattern = "\"";
 		if (boardType != SubjectListFragment.BOARD_TYPE_SUBJECT) {
 			boardname = boardname + "/single";
@@ -847,25 +847,18 @@ public class SmthSupport {
 			subPattern = "/3\"";
 		}
 		Pattern subjectPattern = Pattern.compile("<div><a href=\"/article/"
-				+ boardname + "/(\\d+)" + subPattern + "([^<>]*)>([^<>]+)");
+				+ boardname + "/(\\d+)" + subPattern + "([^<>]*)>([^<>]+)</a>([^<>]*)</div>");
 		Matcher subjectMatcher = subjectPattern.matcher(result);
-		index = 0;
-		while (subjectMatcher.find()) {
-			if (subjectMatcher.groupCount() == 2) {
-				subjectList.get(index).setSubjectID(subjectMatcher.group(1));
-				subjectList.get(index).setTitle(subjectMatcher.group(2));
-			} else {
-				String type = subjectMatcher.group(2);
-				if (type.contains("top")) {
-					subjectList.get(index).setType(Subject.TYPE_BOTTOM);
-				}
-				subjectList.get(index).setSubjectID(subjectMatcher.group(1));
-				subjectList.get(index).setTitle(subjectMatcher.group(3));
+		for (index = 0; index < subjectList.size() && subjectMatcher.find(); index++) {
+			String type = subjectMatcher.group(2);
+			
+			if (type.contains("class=\"top\"")) {
+				subjectList.get(index).setType(Subject.TYPE_BOTTOM);
 			}
-			index++;
-			if (index > subjectList.size()) {
-				break;
-			}
+			
+			subjectList.get(index).setSubjectID(subjectMatcher.group(1));
+			subjectList.get(index).setTitle(subjectMatcher.group(3));
+			subjectList.get(index).setReplies(subjectMatcher.group(4));
 		}
 
 		if (aSMApplication.getCurrentApplication().isHidePinSubject()) {
