@@ -48,6 +48,11 @@ public class SubjectListAdapter extends BaseAdapter {
 			}
 			
 		}
+		
+		if (subject.getReplies() != "") {
+		 	titleString = titleString + "<font color='#c0c0c0'> " + subject.getReplies() + "</font>";
+		 	}
+		
 		titleTextView.setText(Html.fromHtml(titleString));
 		titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, aSMApplication.getCurrentApplication().getSubjectFontSize());
 		

@@ -2,6 +2,8 @@
 *.diff
 *.rej
 *.orig
+/.idea
+/out
 /bin
 /gen
 /libs/aFileChooser/bin
